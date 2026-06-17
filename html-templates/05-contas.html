@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contas e Cartões — FinançasPessoais</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f1f5f9; }
+    .sidebar { background: #14532d; width: 240px; min-height: 100vh; flex-shrink: 0; }
+    .sidebar .nav-link { color: rgba(255,255,255,.75); border-radius: 8px; padding: .5rem .75rem; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #16a34a; color: #fff; }
+    .topbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: .75rem 1.5rem; }
+    .card-conta  { border-left: 4px solid #16a34a; }
+    .card-cartao { border-left: 4px solid #8B5CF6; }
+    #camposCartao { display: none; }
+  </style>
+</head>
+<body>
+<div class="d-flex">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-flex flex-column p-3">
+    <div class="text-white text-center mb-4 pt-2">
+      <div style="font-size:1.8rem">💰</div>
+      <div class="fw-bold fs-6">FinançasPessoais</div>
+      <small class="opacity-50">Olá, Luis Miguel</small>
+    </div>
+    <nav class="nav flex-column gap-1">
+      <a href="02-inicio.html"          class="nav-link">🏠 Início</a>
+      <a href="03-dashboard.html"       class="nav-link">📊 Dashboard</a>
+      <a href="04-transacoes.html"      class="nav-link">📋 Transações</a>
+      <a href="05-contas.html"          class="nav-link active">🏦 Contas e Cartões</a>
+      <a href="06-orcamentos.html"      class="nav-link">🎯 Orçamentos</a>
+      <a href="07-fontes-receita.html"  class="nav-link">💰 Fontes de Receita</a>
+      <a href="08-dividas.html"         class="nav-link">💳 Dívidas</a>
+      <a href="09-categorias.html"      class="nav-link">🏷️ Categorias</a>
+    </nav>
+    <div class="mt-auto"><a href="01-login.html" class="nav-link text-white-50">🚪 Sair</a></div>
+  </aside>
+
+  <div class="flex-grow-1 d-flex flex-column">
+    <header class="topbar d-flex justify-content-between align-items-center">
+      <h1 class="fs-5 fw-bold mb-0">🏦 Contas e Cartões</h1>
+      <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalConta">+ Nova Conta</button>
+    </header>
+
+    <main class="p-4">
+
+      <!-- Contas Bancárias -->
+      <h2 class="fs-6 fw-semibold text-muted text-uppercase mb-2">Contas Bancárias</h2>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="card card-conta h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-0">🟣 Nubank</h6>
+                  <small class="text-muted">Conta Corrente</small>
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-warning">✏️</button>
+                  <button class="btn btn-sm btn-danger">🗑️</button>
+                </div>
+              </div>
+              <p class="fs-4 fw-bold text-success mt-2 mb-0">R$ 3.500,00</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-conta h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-0">🟠 Itaú</h6>
+                  <small class="text-muted">Conta Corrente</small>
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-warning">✏️</button>
+                  <button class="btn btn-sm btn-danger">🗑️</button>
+                </div>
+              </div>
+              <p class="fs-4 fw-bold text-success mt-2 mb-0">R$ 1.200,00</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-conta h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-0">🟢 Poupança</h6>
+                  <small class="text-muted">Conta Poupança</small>
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-warning">✏️</button>
+                  <button class="btn btn-sm btn-danger">🗑️</button>
+                </div>
+              </div>
+              <p class="fs-4 fw-bold text-success mt-2 mb-0">R$ 8.000,00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cartões de Crédito -->
+      <h2 class="fs-6 fw-semibold text-muted text-uppercase mb-2">Cartões de Crédito</h2>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card card-cartao h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-0">💳 Cartão Nubank</h6>
+                  <small class="text-muted">Fecha dia 15 · Vence dia 22</small>
+                </div>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-warning">✏️</button>
+                  <button class="btn btn-sm btn-danger">🗑️</button>
+                </div>
+              </div>
+              <p class="mt-2 mb-0">
+                Fatura: <strong class="text-danger">R$ 0,00</strong>
+                <span class="text-muted"> / R$ 5.000,00</span>
+              </p>
+              <div class="progress mt-1" style="height:6px">
+                <div class="progress-bar bg-success" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-2 mt-auto small">
+      <div class="d-flex justify-content-center gap-2">
+        <span>© 2024 FinançasPessoais</span>
+        <span class="badge bg-success">Bootstrap 5</span>
+        <span class="badge bg-secondary">HTML5</span>
+        <span class="badge bg-info text-dark">CSS3</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- MODAL: FORMULÁRIO HTML Nova Conta -->
+<div class="modal fade" id="modalConta" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Conta / Cartão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nome" class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Ex: Nubank, Bradesco..." required />
+          </div>
+          <div class="mb-3">
+            <label for="tipo" class="form-label fw-semibold">Tipo <span class="text-danger">*</span></label>
+            <select id="tipo" name="tipo" class="form-select" onchange="toggleCartao(this.value)" required>
+              <option value="corrente">Conta Corrente</option>
+              <option value="poupanca">Conta Poupança</option>
+              <option value="cartao">Cartão de Crédito</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="saldo" class="form-label fw-semibold" id="labelSaldo">Saldo (R$)</label>
+            <input type="number" id="saldo" name="saldo" class="form-control" placeholder="0,00" min="0" step="0.01" />
+          </div>
+          <!-- Campos exclusivos do cartão -->
+          <div id="camposCartao">
+            <div class="mb-3">
+              <label for="limite" class="form-label fw-semibold">Limite Total (R$)</label>
+              <input type="number" id="limite" name="limite" class="form-control" placeholder="0,00" min="0" step="0.01" />
+            </div>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label for="diaFechamento" class="form-label fw-semibold">Dia de Fechamento</label>
+                <input type="number" id="diaFechamento" name="diaFechamento" class="form-control" placeholder="Ex: 15" min="1" max="31" />
+              </div>
+              <div class="col-6 mb-3">
+                <label for="diaVencimento" class="form-label fw-semibold">Dia de Vencimento</label>
+                <input type="number" id="diaVencimento" name="diaVencimento" class="form-control" placeholder="Ex: 22" min="1" max="31" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleCartao(tipo) {
+    const campos = document.getElementById('camposCartao');
+    const label = document.getElementById('labelSaldo');
+    campos.style.display = tipo === 'cartao' ? 'block' : 'none';
+    label.textContent = tipo === 'cartao' ? 'Fatura Atual (R$)' : 'Saldo (R$)';
+  }
+</script>
+</body>
+</html>

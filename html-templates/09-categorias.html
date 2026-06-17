@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categorias — FinançasPessoais</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f1f5f9; }
+    .sidebar { background: #14532d; width: 240px; min-height: 100vh; flex-shrink: 0; }
+    .sidebar .nav-link { color: rgba(255,255,255,.75); border-radius: 8px; padding: .5rem .75rem; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #16a34a; color: #fff; }
+    .topbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: .75rem 1.5rem; }
+    .tag-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; color: #fff; font-size: .9rem; font-weight: 600; }
+    .card-cat { text-align: center; transition: transform .15s; }
+    .card-cat:hover { transform: translateY(-3px); }
+    .icone-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .icone-op { font-size: 1.3rem; border: 2px solid transparent; border-radius: 8px; padding: 4px; text-align: center; cursor: pointer; }
+    .icone-op.sel { border-color: #16a34a; background: #f0fdf4; }
+    .cor-op { width: 26px; height: 26px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; display: inline-block; }
+    .cor-op.sel { border-color: #111; transform: scale(1.2); }
+    .preview-tag { padding: 6px 16px; border-radius: 999px; color: #fff; font-weight: 600; display: inline-block; }
+  </style>
+</head>
+<body>
+<div class="d-flex">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-flex flex-column p-3">
+    <div class="text-white text-center mb-4 pt-2">
+      <div style="font-size:1.8rem">💰</div>
+      <div class="fw-bold fs-6">FinançasPessoais</div>
+      <small class="opacity-50">Olá, Luis Miguel</small>
+    </div>
+    <nav class="nav flex-column gap-1">
+      <a href="02-inicio.html"          class="nav-link">🏠 Início</a>
+      <a href="03-dashboard.html"       class="nav-link">📊 Dashboard</a>
+      <a href="04-transacoes.html"      class="nav-link">📋 Transações</a>
+      <a href="05-contas.html"          class="nav-link">🏦 Contas e Cartões</a>
+      <a href="06-orcamentos.html"      class="nav-link">🎯 Orçamentos</a>
+      <a href="07-fontes-receita.html"  class="nav-link">💰 Fontes de Receita</a>
+      <a href="08-dividas.html"         class="nav-link">💳 Dívidas</a>
+      <a href="09-categorias.html"      class="nav-link active">🏷️ Categorias</a>
+    </nav>
+    <div class="mt-auto"><a href="01-login.html" class="nav-link text-white-50">🚪 Sair</a></div>
+  </aside>
+
+  <div class="flex-grow-1 d-flex flex-column">
+    <header class="topbar d-flex justify-content-between align-items-center">
+      <h1 class="fs-5 fw-bold mb-0">🏷️ Categorias</h1>
+      <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalCategoria">+ Nova Categoria</button>
+    </header>
+
+    <main class="p-4">
+
+      <h2 class="fs-6 text-muted text-uppercase mb-3">Despesas</h2>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">🍽️</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#22C55E">Alimentação</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">🚗</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#3B82F6">Transporte</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">🏠</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#8B5CF6">Moradia</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">❤️</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#EF4444">Saúde</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">🎓</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#F59E0B">Educação</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">🎮</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#EC4899">Lazer</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="fs-6 text-muted text-uppercase mb-3">Receitas</h2>
+      <div class="row g-3">
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">💼</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#10B981">Salário</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">💻</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#6366F1">Freelance</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">📈</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#14B8A6">Investimentos</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="card card-cat p-3 h-100">
+            <div style="font-size:2rem">📦</div>
+            <span class="tag-badge mt-2 mx-auto" style="background:#6B7280">Outros</span>
+            <div class="d-flex gap-1 justify-content-center mt-2">
+              <button class="btn btn-sm btn-warning">✏️</button>
+              <button class="btn btn-sm btn-danger">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-2 mt-auto small">
+      <div class="d-flex justify-content-center gap-2">
+        <span>© 2024 FinançasPessoais</span>
+        <span class="badge bg-success">Bootstrap 5</span>
+        <span class="badge bg-secondary">HTML5</span>
+        <span class="badge bg-info text-dark">CSS3</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- MODAL: FORMULÁRIO HTML Nova Categoria -->
+<div class="modal fade" id="modalCategoria" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Categoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nomeCategoria" class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
+            <input type="text" id="nomeCategoria" name="nome" class="form-control" placeholder="Ex: Academia" oninput="atualizarTag()" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Tipo <span class="text-danger">*</span></label>
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipoCat" id="tipoDespesaCat" value="despesa" checked />
+                <label class="form-check-label" for="tipoDespesaCat">Despesa</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipoCat" id="tipoReceitaCat" value="receita" />
+                <label class="form-check-label" for="tipoReceitaCat">Receita</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipoCat" id="tipoAmbosCat" value="ambos" />
+                <label class="form-check-label" for="tipoAmbosCat">Ambos</label>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="iconeCategoria" class="form-label fw-semibold">Ícone</label>
+            <div class="icone-grid" id="gradeIcones">
+              <!-- gerado pelo JS abaixo -->
+            </div>
+            <input type="hidden" id="iconeCategoria" name="icone" value="📦" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Cor</label>
+            <div class="d-flex gap-2 flex-wrap" id="gradeCores">
+              <!-- gerado pelo JS abaixo -->
+            </div>
+            <input type="hidden" id="corCategoria" name="cor" value="#16a34a" />
+          </div>
+          <!-- Prévia da tag -->
+          <div class="mb-2">
+            <label class="form-label fw-semibold">Prévia</label><br />
+            <span class="preview-tag" id="previewTag" style="background:#16a34a">📦 Categoria</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Adicionar Categoria</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const ICONES = ['🍔','🚗','🏠','💊','🎮','💼','📦','✈️','📚','🎵','🐶','☕','🛒','💡','👗','🏋️','🎁','🖥️','📱','🌿'];
+  const CORES  = ['#16a34a','#2563eb','#dc2626','#d97706','#7c3aed','#db2777','#0891b2','#65a30d','#ea580c','#6b7280'];
+  let iconeSel = '📦', corSel = '#16a34a';
+
+  function montarIcones() {
+    document.getElementById('gradeIcones').innerHTML = ICONES.map(i =>
+      `<div class="icone-op${i===iconeSel?' sel':''}" onclick="selIcone('${i}')">${i}</div>`
+    ).join('');
+  }
+  function montarCores() {
+    document.getElementById('gradeCores').innerHTML = CORES.map(c =>
+      `<span class="cor-op${c===corSel?' sel':''}" style="background:${c}" onclick="selCor('${c}')"></span>`
+    ).join('');
+  }
+  function selIcone(i) { iconeSel = i; document.getElementById('iconeCategoria').value = i; montarIcones(); atualizarTag(); }
+  function selCor(c)   { corSel  = c; document.getElementById('corCategoria').value   = c; montarCores();  atualizarTag(); }
+  function atualizarTag() {
+    const nome = document.getElementById('nomeCategoria').value || 'Categoria';
+    const tag  = document.getElementById('previewTag');
+    tag.textContent = `${iconeSel} ${nome}`;
+    tag.style.background = corSel;
+  }
+
+  document.getElementById('modalCategoria').addEventListener('show.bs.modal', () => {
+    montarIcones(); montarCores(); atualizarTag();
+  });
+</script>
+</body>
+</html>

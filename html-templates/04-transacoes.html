@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transações — FinançasPessoais</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f1f5f9; }
+    .sidebar { background: #14532d; width: 240px; min-height: 100vh; flex-shrink: 0; }
+    .sidebar .nav-link { color: rgba(255,255,255,.75); border-radius: 8px; padding: .5rem .75rem; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #16a34a; color: #fff; }
+    .topbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: .75rem 1.5rem; }
+    .badge-receita { background:#dcfce7; color:#15803d; }
+    .badge-despesa { background:#fee2e2; color:#b91c1c; }
+    table tbody tr:nth-child(odd) { background: #f8fafc; }
+  </style>
+</head>
+<body>
+<div class="d-flex">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-flex flex-column p-3">
+    <div class="text-white text-center mb-4 pt-2">
+      <div style="font-size:1.8rem">💰</div>
+      <div class="fw-bold fs-6">FinançasPessoais</div>
+      <small class="opacity-50">Olá, Luis Miguel</small>
+    </div>
+    <nav class="nav flex-column gap-1">
+      <a href="02-inicio.html"          class="nav-link">🏠 Início</a>
+      <a href="03-dashboard.html"       class="nav-link">📊 Dashboard</a>
+      <a href="04-transacoes.html"      class="nav-link active">📋 Transações</a>
+      <a href="05-contas.html"          class="nav-link">🏦 Contas e Cartões</a>
+      <a href="06-orcamentos.html"      class="nav-link">🎯 Orçamentos</a>
+      <a href="07-fontes-receita.html"  class="nav-link">💰 Fontes de Receita</a>
+      <a href="08-dividas.html"         class="nav-link">💳 Dívidas</a>
+      <a href="09-categorias.html"      class="nav-link">🏷️ Categorias</a>
+    </nav>
+    <div class="mt-auto"><a href="01-login.html" class="nav-link text-white-50">🚪 Sair</a></div>
+  </aside>
+
+  <div class="flex-grow-1 d-flex flex-column">
+    <header class="topbar d-flex justify-content-between align-items-center">
+      <h1 class="fs-5 fw-bold mb-0">📋 Transações</h1>
+      <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalTransacao">+ Nova Transação</button>
+    </header>
+
+    <main class="p-4">
+
+      <!-- Filtros -->
+      <div class="d-flex gap-2 mb-3">
+        <input type="text" class="form-control form-control-sm" placeholder="🔍 Buscar..." style="max-width:220px" />
+        <select class="form-select form-select-sm" style="max-width:150px">
+          <option>Todos os tipos</option>
+          <option>Receitas</option>
+          <option>Despesas</option>
+        </select>
+      </div>
+
+      <!-- Tabela READ -->
+      <div class="card shadow-sm">
+        <div class="card-body p-0">
+          <table class="table mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Conta</th>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Salário Maio</td>
+                <td><span class="badge badge-receita">receita</span></td>
+                <td>Salário</td><td>Nubank</td><td>05/05/2024</td>
+                <td class="text-success fw-bold">+ R$ 5.000,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Supermercado Extra</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Alimentação</td><td>Nubank</td><td>08/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 450,75</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Uber Mensal</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Transporte</td><td>Nubank</td><td>10/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 280,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Projeto Website</td>
+                <td><span class="badge badge-receita">receita</span></td>
+                <td>Freelance</td><td>Itaú</td><td>12/05/2024</td>
+                <td class="text-success fw-bold">+ R$ 1.500,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Aluguel Apartamento</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Moradia</td><td>Nubank</td><td>01/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 1.800,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Plano de Saúde</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Saúde</td><td>Nubank</td><td>05/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 350,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Curso Udemy</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Educação</td><td>Cartão Nubank</td><td>15/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 29,90</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Cinema</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Lazer</td><td>Cartão Nubank</td><td>18/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 75,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Rendimento CDB</td>
+                <td><span class="badge badge-receita">receita</span></td>
+                <td>Investimentos</td><td>Poupança</td><td>20/05/2024</td>
+                <td class="text-success fw-bold">+ R$ 150,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Restaurante</td>
+                <td><span class="badge badge-despesa">despesa</span></td>
+                <td>Alimentação</td><td>Nubank</td><td>22/05/2024</td>
+                <td class="text-danger fw-bold">- R$ 120,00</td>
+                <td>
+                  <button class="btn btn-warning btn-sm me-1">Editar</button>
+                  <button class="btn btn-danger btn-sm">Excluir</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-2 mt-auto small">
+      <div class="d-flex justify-content-center gap-2">
+        <span>© 2024 FinançasPessoais</span>
+        <span class="badge bg-success">Bootstrap 5</span>
+        <span class="badge bg-secondary">HTML5</span>
+        <span class="badge bg-info text-dark">CSS3</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- MODAL: FORMULÁRIO HTML Nova Transação -->
+<div class="modal fade" id="modalTransacao" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Transação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form action="#" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="descricao" class="form-label fw-semibold">Descrição <span class="text-danger">*</span></label>
+            <input type="text" id="descricao" name="descricao" class="form-control" placeholder="Ex: Supermercado" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Tipo <span class="text-danger">*</span></label>
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipo" id="tipoReceita" value="receita" />
+                <label class="form-check-label text-success fw-semibold" for="tipoReceita">Receita</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipo" id="tipoDespesa" value="despesa" checked />
+                <label class="form-check-label text-danger fw-semibold" for="tipoDespesa">Despesa</label>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="valor" class="form-label fw-semibold">Valor (R$) <span class="text-danger">*</span></label>
+            <input type="number" id="valor" name="valor" class="form-control" placeholder="0,00" min="0.01" step="0.01" required />
+          </div>
+          <div class="mb-3">
+            <label for="data" class="form-label fw-semibold">Data <span class="text-danger">*</span></label>
+            <input type="date" id="data" name="data" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="categoria" class="form-label fw-semibold">Categoria</label>
+            <select id="categoria" name="categoria" class="form-select">
+              <option value="">Selecione...</option>
+              <option>Alimentação</option><option>Transporte</option><option>Moradia</option>
+              <option>Saúde</option><option>Educação</option><option>Lazer</option>
+              <option>Salário</option><option>Freelance</option><option>Investimentos</option><option>Outros</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="conta" class="form-label fw-semibold">Conta</label>
+            <select id="conta" name="conta" class="form-select">
+              <option value="">Selecione...</option>
+              <option>Nubank</option><option>Itaú</option><option>Poupança</option><option>Cartão Nubank</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Adicionar Transação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
