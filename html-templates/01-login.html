@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template 01 — Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background-color: #f0fdf4; }
+    .card-login { max-width: 420px; border-top: 4px solid #16a34a; }
+    .btn-login { background-color: #16a34a; border-color: #16a34a; }
+    .btn-login:hover { background-color: #15803d; border-color: #15803d; }
+    .error-msg { display: none; }
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
+
+  <div class="card card-login shadow-sm w-100 mx-3">
+    <div class="card-body p-4">
+      <h1 class="fs-4 fw-bold text-center text-success mb-1">💰 FinançasPessoais</h1>
+      <p class="text-center text-muted small mb-4">Faça login para acessar sua conta</p>
+
+      <!-- FORMULÁRIO DE LOGIN -->
+      <form id="formLogin" novalidate>
+
+        <!-- Campo: E-mail -->
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="seu@email.com"
+            required
+          />
+        </div>
+
+        <!-- Campo: Senha -->
+        <div class="mb-3">
+          <label for="senha" class="form-label fw-semibold">Senha</label>
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            class="form-control"
+            placeholder="Mínimo 4 caracteres"
+            minlength="4"
+            required
+          />
+        </div>
+
+        <!-- Mensagem de erro (exibida via JS) -->
+        <div id="erroLogin" class="alert alert-danger py-2 error-msg" role="alert">
+          E-mail ou senha inválidos.
+        </div>
+
+        <!-- Botão de submit -->
+        <button type="submit" class="btn btn-login btn-success w-100 mt-2">
+          Entrar
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('formLogin');
+    const erroLogin = document.getElementById('erroLogin');
+
+    // Credenciais simuladas
+    const USUARIO_VALIDO = { email: 'admin@email.com', senha: '1234' };
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
+
+      // Validação simples
+      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const senhaValida = senha.length >= 4;
+
+      if (!emailValido || !senhaValida) {
+        erroLogin.classList.add('show');
+        return;
+      }
+
+      if (email === USUARIO_VALIDO.email && senha === USUARIO_VALIDO.senha) {
+        erroLogin.classList.remove('show');
+        alert('Login realizado com sucesso! Redirecionando...');
+      } else {
+        erroLogin.classList.add('show');
+      }
+    });
+  </script>
+
+</body>
+</html>

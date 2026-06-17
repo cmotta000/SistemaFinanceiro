@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template 03 — Contas e Cartões</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background-color: #f8fafc; }
+    .card-conta { border-left: 4px solid #16a34a; }
+    .card-cartao { border-left: 4px solid #7c3aed; }
+    .campos-cartao { display: none; }
+    .campos-cartao.show { display: block; }
+  </style>
+</head>
+<body class="p-4">
+
+  <div class="container-xl">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="fs-4 fw-bold mb-0">🏦 Contas e Cartões</h1>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalConta" onclick="abrirNova()">
+        + Nova Conta
+      </button>
+    </div>
+
+    <!-- READ — Contas Bancárias -->
+    <h2 class="fs-6 fw-semibold text-muted text-uppercase mb-2">Contas Bancárias</h2>
+    <div class="row g-3 mb-4" id="listaContas"></div>
+
+    <!-- READ — Cartões de Crédito -->
+    <h2 class="fs-6 fw-semibold text-muted text-uppercase mb-2">Cartões de Crédito</h2>
+    <div class="row g-3" id="listaCartoes"></div>
+  </div>
+
+  <!-- MODAL — Criar / Editar -->
+  <div class="modal fade" id="modalConta" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModal">Nova Conta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- FORMULÁRIO com campos dinâmicos (cartão/conta) -->
+        <form id="formConta" novalidate>
+          <div class="modal-body">
+
+            <!-- Nome -->
+            <div class="mb-3">
+              <label for="nome" class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
+              <input type="text" id="nome" class="form-control" placeholder="Ex: Nubank, Bradesco..." required />
+            </div>
+
+            <!-- Tipo (select — controla campos adicionais) -->
+            <div class="mb-3">
+              <label for="tipo" class="form-label fw-semibold">Tipo <span class="text-danger">*</span></label>
+              <select id="tipo" class="form-select" onchange="atualizarCampos()" required>
+                <option value="corrente">Conta Corrente</option>
+                <option value="poupanca">Conta Poupança</option>
+                <option value="cartao">Cartão de Crédito</option>
+              </select>
+            </div>
+
+            <!-- Saldo / Limite -->
+            <div class="mb-3">
+              <label for="saldo" class="form-label fw-semibold" id="labelSaldo">Saldo (R$)</label>
+              <input type="number" id="saldo" class="form-control" placeholder="0,00" min="0" step="0.01" />
+            </div>
+
+            <!-- Campos exclusivos do Cartão de Crédito -->
+            <div class="campos-cartao" id="camposCartao">
+              <div class="mb-3">
+                <label for="limite" class="form-label fw-semibold">Limite Total (R$)</label>
+                <input type="number" id="limite" class="form-control" placeholder="0,00" min="0" step="0.01" />
+              </div>
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label for="diaFechamento" class="form-label fw-semibold">Dia de Fechamento</label>
+                  <input type="number" id="diaFechamento" class="form-control" placeholder="Ex: 20" min="1" max="31" />
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="diaVencimento" class="form-label fw-semibold">Dia de Vencimento</label>
+                  <input type="number" id="diaVencimento" class="form-control" placeholder="Ex: 27" min="1" max="31" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success" id="btnSalvar">Adicionar</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL — Confirmação de Exclusão -->
+  <div class="modal fade" id="modalExcluir" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Excluir Conta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">Tem certeza que deseja excluir esta conta?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarExcluir">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let contas = [
+      { id: 1, nome: 'Nubank', tipo: 'corrente', saldo: 1200 },
+      { id: 2, nome: 'Bradesco Poupança', tipo: 'poupanca', saldo: 5400 },
+      { id: 3, nome: 'Inter Mastercard', tipo: 'cartao', saldo: 850, limite: 3000, diaFechamento: 20, diaVencimento: 27 },
+    ];
+    let proximoId = 4;
+    let editandoId = null;
+    let excluindoId = null;
+
+    // Alterna campos extras ao mudar o tipo
+    function atualizarCampos() {
+      const tipo = document.getElementById('tipo').value;
+      const camposCartao = document.getElementById('camposCartao');
+      const labelSaldo = document.getElementById('labelSaldo');
+      if (tipo === 'cartao') {
+        camposCartao.classList.add('show');
+        labelSaldo.textContent = 'Fatura Atual (R$)';
+      } else {
+        camposCartao.classList.remove('show');
+        labelSaldo.textContent = 'Saldo (R$)';
+      }
+    }
+
+    function renderizar() {
+      const bancarias = contas.filter(c => c.tipo !== 'cartao');
+      const cartoes = contas.filter(c => c.tipo === 'cartao');
+
+      document.getElementById('listaContas').innerHTML = bancarias.map(c => `
+        <div class="col-md-4">
+          <div class="card card-conta h-100">
+            <div class="card-body">
+              <h6 class="fw-bold">🏦 ${c.nome}</h6>
+              <p class="text-muted small mb-1">${c.tipo === 'corrente' ? 'Conta Corrente' : 'Conta Poupança'}</p>
+              <p class="fs-5 fw-bold text-success mb-0">R$ ${c.saldo.toFixed(2)}</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex gap-2">
+              <button class="btn btn-sm btn-warning" onclick="abrirEditar(${c.id})">✏️ Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmarExcluir(${c.id})">🗑️ Excluir</button>
+            </div>
+          </div>
+        </div>
+      `).join('') || '<p class="text-muted">Nenhuma conta bancária cadastrada.</p>';
+
+      document.getElementById('listaCartoes').innerHTML = cartoes.map(c => `
+        <div class="col-md-4">
+          <div class="card card-cartao h-100">
+            <div class="card-body">
+              <h6 class="fw-bold">💳 ${c.nome}</h6>
+              <p class="text-muted small mb-1">Fatura: <strong class="text-danger">R$ ${c.saldo.toFixed(2)}</strong> / R$ ${c.limite.toFixed(2)}</p>
+              <p class="text-muted small mb-0">Fecha dia ${c.diaFechamento} · Vence dia ${c.diaVencimento}</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex gap-2">
+              <button class="btn btn-sm btn-warning" onclick="abrirEditar(${c.id})">✏️ Editar</button>
+              <button class="btn btn-sm btn-danger" onclick="confirmarExcluir(${c.id})">🗑️ Excluir</button>
+            </div>
+          </div>
+        </div>
+      `).join('') || '<p class="text-muted">Nenhum cartão cadastrado.</p>';
+    }
+
+    function abrirNova() {
+      editandoId = null;
+      document.getElementById('tituloModal').textContent = 'Nova Conta';
+      document.getElementById('btnSalvar').textContent = 'Adicionar';
+      document.getElementById('formConta').reset();
+      document.getElementById('camposCartao').classList.remove('show');
+      document.getElementById('labelSaldo').textContent = 'Saldo (R$)';
+    }
+
+    function abrirEditar(id) {
+      editandoId = id;
+      const c = contas.find(x => x.id === id);
+      document.getElementById('tituloModal').textContent = 'Editar Conta';
+      document.getElementById('btnSalvar').textContent = 'Salvar Alterações';
+      document.getElementById('nome').value = c.nome;
+      document.getElementById('tipo').value = c.tipo;
+      document.getElementById('saldo').value = c.saldo;
+      atualizarCampos();
+      if (c.tipo === 'cartao') {
+        document.getElementById('limite').value = c.limite || '';
+        document.getElementById('diaFechamento').value = c.diaFechamento || '';
+        document.getElementById('diaVencimento').value = c.diaVencimento || '';
+      }
+      new bootstrap.Modal(document.getElementById('modalConta')).show();
+    }
+
+    document.getElementById('formConta').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const tipo = document.getElementById('tipo').value;
+      const dados = {
+        nome: document.getElementById('nome').value.trim(),
+        tipo,
+        saldo: parseFloat(document.getElementById('saldo').value) || 0,
+        ...(tipo === 'cartao' && {
+          limite: parseFloat(document.getElementById('limite').value) || 0,
+          diaFechamento: parseInt(document.getElementById('diaFechamento').value) || 0,
+          diaVencimento: parseInt(document.getElementById('diaVencimento').value) || 0,
+        }),
+      };
+      if (!dados.nome) return;
+
+      if (editandoId === null) {
+        contas.push({ id: proximoId++, ...dados });
+      } else {
+        const idx = contas.findIndex(c => c.id === editandoId);
+        contas[idx] = { id: editandoId, ...dados };
+      }
+      bootstrap.Modal.getInstance(document.getElementById('modalConta')).hide();
+      renderizar();
+    });
+
+    function confirmarExcluir(id) {
+      excluindoId = id;
+      new bootstrap.Modal(document.getElementById('modalExcluir')).show();
+    }
+
+    document.getElementById('btnConfirmarExcluir').addEventListener('click', function () {
+      contas = contas.filter(c => c.id !== excluindoId);
+      bootstrap.Modal.getInstance(document.getElementById('modalExcluir')).hide();
+      renderizar();
+    });
+
+    renderizar();
+  </script>
+
+</body>
+</html>
