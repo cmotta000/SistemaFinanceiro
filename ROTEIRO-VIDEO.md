@@ -5,6 +5,7 @@
 ## Checklist do vídeo
 
 - [ ] Bootstrap (framework CSS instalado e em uso) — **Luís**
+- [ ] Telas HTML estáticas (`html-templates/`) — **Luís**
 - [ ] Rotas / navegação entre telas — **Luís**
 - [ ] CRUD 1 — Transações — **Luís**
 - [ ] CRUD 2 — Contas e Cartões — **Luís**
@@ -14,7 +15,7 @@
 
 ---
 
-## 🟢 LUÍS — Bootstrap, Rotas + 2 CRUDs
+## 🟢 LUÍS — Bootstrap, Telas HTML, Rotas + 2 CRUDs
 
 ### 1. Bootstrap (framework CSS)
 
@@ -25,7 +26,7 @@
 - O CSS do Bootstrap é importado em `app/layout.jsx` (linha 4: `import 'bootstrap/dist/css/bootstrap.min.css'`) — esse é o arquivo que **inicializa/"bootstrapa"** toda a aplicação: define o HTML base (`<html>`, `<body>`), importa os estilos globais (Bootstrap + Tailwind via `globals.css`) e configura metadados como título e ícone.
 - O componente `components/rodape-bootstrap.jsx` usa **classes do Bootstrap 5**: `container`, `d-flex`, `flex-column`, `flex-sm-row`, `justify-content-center`, `align-items-center`, `gap-2`, `bg-dark`, `text-white`, `text-center`, e os componentes `badge` (`badge bg-success`, `badge bg-secondary`, `badge bg-info`).
 - Esse rodapé aparece em **todas as telas**: na tela de login (`tela-login.jsx`, final do arquivo) e em todas as telas internas (`layout-principal.jsx`, dentro de `<main>`, depois de `{children}`).
-- Em `app/page.jsx`, o componente `Home` (linhas 110-117) **envolve toda a aplicação** com o `FinanceiroProvider` — é aqui que o "estado global" (Context API) é inicializado e fica disponível para todas as telas. Dentro do Provider, o componente `ConteudoPrincipal` (linha 35) verifica `isLoggedIn` (linha 40): se não estiver logado, mostra `<TelaLogin />`; se estiver, mostra o layout principal com a tela ativa.
+- Em `app/page.jsx`, o componente `Home` **envolve toda a aplicação** com o `FinanceiroProvider` — é aqui que o "estado global" (Context API) é inicializado. O componente `ConteudoPrincipal` verifica `isLoggedIn`: se não estiver logado, mostra `<TelaLogin />`; se estiver, mostra o layout principal.
 
 **Frase-chave:** *"O Bootstrap entra no projeto em `app/layout.jsx` — o arquivo que inicializa a aplicação — e aparece visualmente no rodapé presente em todas as telas, usando classes como `container`, `d-flex` e `badge`, ao lado do Tailwind e do shadcn/ui."*
 
@@ -33,15 +34,41 @@
 
 ---
 
-### 2. Rotas / Navegação entre telas
+### 2. Telas HTML Estáticas (`html-templates/`)
 
-**Mostrar na tela:** `components/layout-principal.jsx` (linhas 35-57 e 147-173) e o switch em `app/page.jsx` (linhas 53-93)
+**Mostrar na tela:** abrir a pasta `html-templates/` no explorador de arquivos e abrir os arquivos direto no navegador
+
+**O que falar:**
+- O projeto possui **9 telas HTML estáticas** na pasta `html-templates/`, que reproduzem visualmente cada tela do sistema usando **HTML puro + Bootstrap 5** (via CDN), sem necessidade de Node.js ou servidor.
+- Cada arquivo é uma página completa e autossuficiente: contém `<html>`, `<head>` com o CSS do Bootstrap, `<body>` com sidebar de navegação, topbar, conteúdo principal e rodapé Bootstrap — a mesma estrutura do sistema React.
+- A **navegação entre as telas funciona via links `<a href="...">`** na sidebar, conectando todos os 9 arquivos entre si.
+- Os formulários usam elementos HTML nativos com classes Bootstrap: `<form>`, `<input>`, `<select>`, `<label>`, `<textarea>` — estilizados com `form-control`, `form-label`, `form-select`, `mb-3`.
+- **Destaques de formulários específicos:**
+  - `01-login.html`: `<form>` com `type="email"` e `type="password"`, atributos `required` e `minlength`
+  - `04-transacoes.html`: `<input type="radio">` para tipo receita/despesa + `<select>` para categoria e conta
+  - `05-contas.html`: formulário dinâmico — ao selecionar "Cartão de Crédito" no `<select>`, campos extras aparecem via JavaScript
+  - `06-orcamentos.html`: `<input type="month">` para mês de referência
+  - `07-fontes-receita.html`: `<input type="color">` para cor de identificação
+  - `08-dividas.html`: cálculo em tempo real do valor da parcela (`valorTotal / qtdParcelas`) enquanto o usuário digita, usando evento `oninput`
+
+**Frase-chave:** *"Essas telas HTML mostram a estrutura base do sistema em HTML puro e Bootstrap 5 — cada formulário usa elementos nativos como `<form>`, `<input>` e `<select>` com classes Bootstrap, abrindo direto no navegador sem precisar de servidor."*
+
+**Demonstração ao vivo:**
+1. Abrir `html-templates/01-login.html` diretamente no navegador (duplo clique)
+2. Navegar pela sidebar até `04-transacoes.html` — mostrar a tabela e clicar em "Nova Transação" para abrir o modal com o formulário HTML
+3. Ir para `08-dividas.html` — digitar um valor total e quantidade de parcelas para mostrar o cálculo em tempo real da parcela
+
+---
+
+### 3. Rotas / Navegação entre telas
+
+**Mostrar na tela:** `components/layout-principal.jsx` e o switch em `app/page.jsx` (linhas 53-93)
 
 **O que falar:**
 - Diferente de um site com várias URLs, este projeto é uma **SPA (Single Page Application)**: existe **uma única rota real** (`/`), e a "navegação" entre telas é controlada por **estado do React**, não pela URL.
-- O array `menuItems` (linhas 35-44 de `layout-principal.jsx`) define os itens do menu lateral (ícone + label + id da página).
-- Ao clicar em um item do menu (linha 155), a função `setPaginaAtiva(item.id)` atualiza o estado.
-- De volta em `app/page.jsx`, a função `renderizarConteudo()` (linhas 53-93) é um **switch** que decide qual componente de tela mostrar com base em `paginaAtiva` — esse é o "roteador" da aplicação.
+- O array `menuItems` em `layout-principal.jsx` define os itens do menu lateral (ícone + label + id da página).
+- Ao clicar em um item do menu, a função `setPaginaAtiva(item.id)` atualiza o estado.
+- Em `app/page.jsx`, a função `renderizarConteudo()` (linhas 53-93) é um **switch** que decide qual componente de tela mostrar com base em `paginaAtiva` — esse é o "roteador" da aplicação.
 
 **Frase-chave:** *"As rotas aqui são simuladas: a sidebar muda uma variável de estado (`paginaAtiva`), e um switch decide qual tela renderizar — sem recarregar a página."*
 
@@ -49,7 +76,7 @@
 
 ---
 
-### 3. CRUD 1 — Transações (`components/tela-transacoes.jsx`)
+### 4. CRUD 1 — Transações (`components/tela-transacoes.jsx`)
 
 **O que mostrar e falar:**
 - **Create**: botão "Nova Transação" abre um modal (`Dialog`) com formulário (linha 400). Ao salvar, chama `adicionarTransacao` (definida em `lib/financeiro-context.jsx`, linha 158).
@@ -61,7 +88,7 @@
 
 ---
 
-### 4. CRUD 2 — Contas e Cartões (`components/tela-contas.jsx`)
+### 5. CRUD 2 — Contas e Cartões (`components/tela-contas.jsx`)
 
 **O que mostrar e falar:**
 - **Create**: botão "Nova Conta" → modal de cadastro (linha 396) → `adicionarConta` (linha 285 do contexto).
@@ -123,12 +150,13 @@
 
 ---
 
-## Sugestão de tempo (vídeo de ~10 min)
+## Sugestão de tempo (vídeo de ~12 min)
 
 | Bloco | Responsável | Tempo aprox. |
 |---|---|---|
 | Bootstrap (framework CSS) | Luís | 1,5 min |
-| Rotas / navegação | Luís | 1,5 min |
+| Telas HTML estáticas (`html-templates/`) | Luís | 2 min |
+| Rotas / navegação | Luís | 1 min |
 | CRUD Transações | Luís | 1,5 min |
 | CRUD Contas e Cartões | Luís | 1,5 min |
 | Estrutura de formulário | Alexandre | 1,5 min |
